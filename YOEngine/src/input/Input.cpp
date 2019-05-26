@@ -85,8 +85,8 @@ namespace yo {
 
 	int Input::mousePressed(int buttonCode) noexcept {
 		if (buttonCode < YO_MAX_BUTTONS) {
-			if (keys[buttonCode].pressed) {
-				keys[buttonCode].pressed = false;
+			if (buttons[buttonCode].pressed) {
+				buttons[buttonCode].pressed = false;
 				return true;
 			}
 		}
@@ -96,8 +96,8 @@ namespace yo {
 
 	int Input::mouseReleased(int buttonCode) noexcept {
 		if (buttonCode < YO_MAX_BUTTONS) {
-			if (keys[buttonCode].released) {
-				keys[buttonCode].released = false;
+			if (buttons[buttonCode].released) {
+				buttons[buttonCode].released = false;
 				return true;
 			}
 		}

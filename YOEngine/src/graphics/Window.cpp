@@ -19,6 +19,7 @@ namespace yo {
 	Window::~Window() noexcept {
 		glfwDestroyWindow(window);
 		glfwTerminate();
+		delete input;
 	}
 
 
@@ -30,7 +31,6 @@ namespace yo {
 			glfwTerminate();
 			return 0;
 		}
-
 		window = glfwCreateWindow(width, height, title, NULL, NULL);
 		if (window == NULL) {
 #ifdef _DEBUG
@@ -42,6 +42,18 @@ namespace yo {
 
 		input = new Input(window);
 		glfwMakeContextCurrent(window);
+
+		//OpenGL things
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, width, height, 0, 0, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_POLYGON_SMOOTH);
+		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 		//set callbacks
 		glfwSetErrorCallback([](int error, const char* description) { std::cout << "Error: " << description << std::endl; });

@@ -142,14 +142,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\shapes\Ellipse.cpp" />
+    <ClCompile Include="src\graphics\shapes\Line.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graphics\shapes\Rectangle.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\input\Input.cpp" />
+    <ClCompile Include="src\items\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\shapes\Ellipse.h" />
+    <ClInclude Include="src\graphics\shapes\Line.h" />
+    <ClInclude Include="src\graphics\shapes\Rectangle.h" />
     <ClInclude Include="src\input\Input.h" />
+    <ClInclude Include="src\items\Color.h" />
     <ClInclude Include="src\objects\structs.h" />
     <ClInclude Include="src\graphics\Window.h" />
+    <ClInclude Include="src\YOEnginge.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

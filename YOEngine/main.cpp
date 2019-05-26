@@ -1,4 +1,7 @@
-#include "src/graphics/Window.h"
+#include "src/YOEnginge.h"
+
+#include <ctime>
+
 
 #ifdef _DEBUG
 int main() {
@@ -7,20 +10,14 @@ int WinMain() {
 #endif
 	yo::Window window(640, 480, "window");
 	yo::Input* input = window.getInputHandle();
-
+	yo::Ellipse rect(50, 50, 150, 300);
 	while (!window.closed()) {
-
-		if (input->keyPressed(32)) {
-			std::cout << "Space is held" << std::endl;
-		}
+		//LOGIC
 
 		window.clear();
-		glBegin(GL_QUADS);
-		glVertex2f(0.5, 0.5);
-		glVertex2f(0.5, -0.5);
-		glVertex2f(-0.5, -0.5);
-		glVertex2f(-0.5, 0.5);
-		glEnd();
+
+		//DRAW 
+		rect.draw();
 		window.update();
 	}
 
