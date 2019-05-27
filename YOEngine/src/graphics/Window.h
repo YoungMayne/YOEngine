@@ -7,9 +7,12 @@
 
 namespace yo {
 
-	struct WindowCoords {
+	struct WindowState {
 		int x;
 		int y;
+		int width;
+		int height;
+		const char* title;
 	};
 
 	class Window {
@@ -22,15 +25,13 @@ namespace yo {
 
 		int closed()noexcept;
 
-		WindowCoords getWindowCoords()noexcept;
+		WindowState getWindowState()noexcept;
 
 		Input* getInputHandle()noexcept;
 	private:
 		GLFWwindow* window;
 		Input* input;
-		const char* title;
-		int         width;
-		int         height;
+		WindowState state;
 	private:
 		int init()noexcept;
 	};

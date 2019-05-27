@@ -1,28 +1,5 @@
 #include "Ellipse.h"
 
-void DrawEllipse(float cx, float cy, float rx, float ry, int num_segments)
-{
-	float theta = 2 * 3.1415926 / float(num_segments);
-	float c = cos(theta);//precalculate the sine and cosine
-	float s = sin(theta);
-	float t;
-
-	float x = 1;//we start at angle = 0 
-	float y = 0;
-
-	glBegin(GL_LINE_LOOP);
-	for (int i = 0; i < num_segments; i++)
-	{
-		//apply radius and offset
-		glVertex2f(x * rx + cx, y * ry + cy);//output vertex 
-
-		//apply the rotation matrix
-		t = x;
-		x = c * x - s * y;
-		y = s * t + c * y;
-	}
-	glEnd();
-}
 
 namespace yo {
 
@@ -32,13 +9,9 @@ namespace yo {
 
 
 	Ellipse::Ellipse(float x, float y, float width, float height) {
-		coords.x = x;
-		coords.y = y;
-		coords.width = width;
-		coords.height = height;
-
-		rx = coords.width * 0.5;
-		ry = coords.height * 0.5;
+		setCoords(x, y, width, height);
+		color.set(color.getRGBA().r / 255, color.getRGBA().g / 255, color.getRGBA().b / 255, color.getRGBA().alpha);
+		filling = false;
 	}
 
 
@@ -47,14 +20,78 @@ namespace yo {
 	}
 
 
+	Ellipse::Ellipse(float x, float y, float radius) {
+		setCoords(x, y, radius);
+	}
+
+
+	EllipseCoordinates Ellipse::getCoords() {
+		return coords;
+	}
+
+
+	Color Ellipse::getColor() {
+		Color col(color.getRGBA().r * 255, color.getRGBA().g * 255, color.getRGBA().b * 255, color.getRGBA().alpha);
+		return col;
+	}
+
+
+	void Ellipse::fill(int state) {
+		filling = state;
+	}
+
+
+	void Ellipse::segments(int segments) {
+		step = TWO_PI / (float)segments;
+	}
+
+
+	void Ellipse::setCoords(float x, float y, float width, float height) {
+		coords.x = x;
+		coords.y = y;
+		coords.width = width;
+		coords.height = height;
+
+		rx = coords.width * 0.5;
+		ry = coords.height * 0.5;
+
+		x0 = coords.x + coords.width * 0.5;
+		y0 = coords.y + coords.height * 0.5;
+	}
+
+
+	void Ellipse::setCoords(const EllipseCoordinates& coords) {
+		setCoords(coords.x, coords.y, coords.width, coords.height);
+	}
+
+
+	void Ellipse::setCoords(float x, float y, float radius) {
+		setCoords(x, y, radius * 2, radius * 2);
+		x0 = x;
+		y0 = y;
+	}
+
+
+	void Ellipse::setCoords(float x, float y) {
+		setCoords(x, y, coords.width, coords.height);
+		x0 = x;
+		y0 = y;
+	}
+
+
+	void Ellipse::setColor(const Color& col) {
+		color.set(col.getRGBA().r / 255, col.getRGBA().g / 255, col.getRGBA().b / 255, col.getRGBA().alpha);
+	}
+
+
 	void Ellipse::draw() {
-		float x0 = coords.x + coords.width * 0.5;
-		float y0 = coords.y + coords.height * 0.5;
 
+		glDisable(GL_BLEND);
 		glPushMatrix();
-
+		glColor4f(color.getRGBA().r, color.getRGBA().g, color.getRGBA().b, color.getRGBA().alpha);
 		if (filling) {
 			glBegin(GL_TRIANGLE_FAN);
+
 		}
 		else {
 			glBegin(GL_LINE_STRIP);
@@ -67,6 +104,7 @@ namespace yo {
 		glEnd();
 
 		glPopMatrix();
+		glEnable(GL_BLEND);
 	}
 
 }

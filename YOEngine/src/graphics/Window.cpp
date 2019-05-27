@@ -3,9 +3,9 @@
 namespace yo {
 
 	Window::Window(int width, int height, const char* title) noexcept {
-		this->width = width;
-		this->height = height;
-		this->title = title;
+		state.width = width;
+		state.height = height;
+		state.title = title;
 		if (!init()) {
 #ifdef _DEBUG
 			std::cout << "Window init faied" << std::endl;
@@ -31,7 +31,7 @@ namespace yo {
 			glfwTerminate();
 			return 0;
 		}
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
+		window = glfwCreateWindow(state.width, state.height, state.title, NULL, NULL);
 		if (window == NULL) {
 #ifdef _DEBUG
 			std::cout << "Window creation failed" << std::endl;
@@ -46,11 +46,11 @@ namespace yo {
 		//OpenGL things
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, width, height, 0, 0, 1);
+		glOrtho(0, state.width, state.height, 0, 0, 1);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
+		glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_POLYGON_SMOOTH);
 		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
@@ -85,10 +85,10 @@ namespace yo {
 	}
 
 
-	WindowCoords Window::getWindowCoords() noexcept {
-		WindowCoords coords;
-		glfwGetWindowPos(window, &coords.x, &coords.y);
-		return coords;
+	WindowState Window::getWindowState() noexcept {
+		glfwGetWindowPos(window, &state.x, &state.y);
+		glfwGetWindowSize(window, &state.width, &state.height);
+		return state;
 	}
 
 

@@ -10,14 +10,19 @@ int WinMain() {
 #endif
 	yo::Window window(640, 480, "window");
 	yo::Input* input = window.getInputHandle();
-	yo::Ellipse rect(50, 50, 150, 300);
+	yo::Ellipse ellipse(320, 240, 50);
+	ellipse.fill();
 	while (!window.closed()) {
 		//LOGIC
+		if (input->mousePressed(0)) {
+			ellipse.setCoords(input->getMousePosition().x, input->getMousePosition().y, rand() % 100);
+			ellipse.setColor(yo::Color(rand() % 255, rand() % 255, rand() % 255));
+		}
 
 		window.clear();
-
 		//DRAW 
-		rect.draw();
+		ellipse.draw();
+
 		window.update();
 	}
 
