@@ -149,6 +149,7 @@
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\input\Input.cpp" />
     <ClCompile Include="src\items\Color.cpp" />
+    <ClCompile Include="src\math\Vec.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shapes\Ellipse.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="src\graphics\shapes\Rectangle.h" />
     <ClInclude Include="src\input\Input.h" />
     <ClInclude Include="src\items\Color.h" />
+    <ClInclude Include="src\math\Vec.h" />
     <ClInclude Include="src\objects\structs.h" />
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\YOEnginge.h" />
