@@ -25,7 +25,7 @@ namespace yo {
 		HEX getHEX()const;
 		RGBA getRGBA()const;
 	private:
-		char hex[6];
+		char hex[7];
 		RGBA rgba;
 	private:
 		float to_decimal(const char& c);

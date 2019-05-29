@@ -148,19 +148,23 @@
     <ClCompile Include="src\graphics\shapes\Rectangle.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\input\Input.cpp" />
+    <ClCompile Include="src\items\Chance.cpp" />
     <ClCompile Include="src\items\Color.cpp" />
-    <ClCompile Include="src\math\Vec.cpp" />
+    <ClCompile Include="src\math\Matrix4x4.cpp" />
+    <ClCompile Include="src\math\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shapes\Ellipse.h" />
     <ClInclude Include="src\graphics\shapes\Line.h" />
     <ClInclude Include="src\graphics\shapes\Rectangle.h" />
     <ClInclude Include="src\input\Input.h" />
+    <ClInclude Include="src\items\Chance.h" />
     <ClInclude Include="src\items\Color.h" />
-    <ClInclude Include="src\math\Vec.h" />
+    <ClInclude Include="src\math\Matrix4x4.h" />
+    <ClInclude Include="src\math\Vector.h" />
     <ClInclude Include="src\objects\structs.h" />
     <ClInclude Include="src\graphics\Window.h" />
-    <ClInclude Include="src\YOEnginge.h" />
+    <ClInclude Include="src\YOEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

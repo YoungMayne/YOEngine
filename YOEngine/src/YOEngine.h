@@ -9,6 +9,8 @@
 
 //items
 #include "items/Color.h"
+#include "items/Chance.h"
 
 //math
-#include "math/Vec.h"
+#include "math/Vector.h"
+#include "math/Matrix4x4.h"
