@@ -1,16 +1,26 @@
 #pragma once
+
+#include "Types.h"
+#include "math/vec2.h"
+#include "math/vec3.h"
+#include "math/vec4.h"
+#include "math/mat4.h"
+#include "input/Event.h"
+#include "graphics/Mesh.h"
+#include "graphics/Shader.h"
 #include "graphics/Window.h"
-#include "input/Input.h"
+#include "graphics/Camera.h"
+#include "graphics/Vertex.h"
+#include "graphics/Texture.h"
+#include "graphics/Transform.h"
 
-//shapes
-#include "graphics/shapes/Line.h"
-#include "graphics/shapes/Rectangle.h"
-#include "graphics/shapes/Ellipse.h"
 
-//items
-#include "items/Color.h"
-#include "items/Chance.h"
+#ifdef _DEBUG
 
-//math
-#include "math/Vector.h"
-#include "math/Matrix4x4.h"
+#define STARTENGINE main
+
+#else
+
+#define STARTENGINE WinMain
+
+#endif 

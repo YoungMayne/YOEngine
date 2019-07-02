@@ -1,39 +1,55 @@
 #pragma once
-#include <iostream>
+
+
 #include <glew.h>
 #include <glfw3.h>
+#ifdef _DEBUG
+#include <iostream>
+#endif
 
-#include "../input/Input.h"
+#include "../Types.h"
 
-namespace yo {
 
-	struct WindowState {
-		int x;
-		int y;
-		int width;
-		int height;
-		const char* title;
-	};
+namespace YOEngine {
+
 
 	class Window {
 	public:
-		Window(int width, int height, const char* title)noexcept;
-		~Window()noexcept;
+		friend class          Event;
+	public:
+		Window                (YO_STRING title);
+		Window                (YO_UINT width, YO_UINT height, YO_STRING title, YO_BOOL borderless = YO_FALSE);
+		~Window               ();
 
-		void clear()noexcept;
-		void update()noexcept;
+		YO_VOID resize        (YO_UINT width, YO_UINT height);
+		YO_VOID getSize       (YO_INT& width, YO_INT height);
 
-		int closed()noexcept;
+		YO_VOID setPos        (YO_UINT x, YO_UINT y);
+		YO_VOID getPos        (YO_INT& x, YO_INT& y)const;
 
-		WindowState getWindowState()noexcept;
+		YO_VOID setTitle      (YO_STRING title);
+		YO_STRING getTitle    ()const;
 
-		Input* getInputHandle()noexcept;
-	private:
-		GLFWwindow* window;
-		Input* input;
-		WindowState state;
-	private:
-		int init()noexcept;
+		YO_VOID setVisibility (YO_BOOL status);
+		YO_BOOL getVisibility ()const;
+
+		YO_VOID setOpacity    (YO_FLOAT value);
+		YO_FLOAT getOpacity   ()const;
+
+		YO_VOID vsync         (YO_BOOL status);
+		YO_VOID close         ();
+		YO_VOID focus         ();
+		YO_VOID clear         ();
+		YO_VOID update        ();
+
+		YO_BOOL closed        ()const;
+	protected:
+		GLFWwindow*           window;
+		YO_BOOL               terminated;
+		YO_STRING             title;
+		YO_INT                height;
+		YO_INT                width;
 	};
+
 
 }

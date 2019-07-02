@@ -1,99 +1,141 @@
 #include "Window.h"
 
-namespace yo {
+#include <Windows.h>
 
-	Window::Window(int width, int height, const char* title) noexcept {
-		state.width = width;
-		state.height = height;
-		state.title = title;
-		if (!init()) {
+
+namespace YOEngine {
+
+
+	Window::Window(YO_STRING title) : Window(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), title, YO_TRUE) {}
+
+
+	YOEngine::Window::Window(YO_UINT width, YO_UINT height, YO_STRING title, YO_BOOL borderless) {
+		this->title = title;
+		this->width = width;
+		this->height = height;
+
 #ifdef _DEBUG
-			std::cout << "Window init faied" << std::endl;
-			system("pause");
-#endif
-			exit(EXIT_FAILURE);
+		if (!glfwInit()) {
+			std::cout << "glfwInit failed" << std::endl;
+			glfwTerminate();
 		}
+#else
+		glfwInit();
+#endif
+
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		glfwWindowHint(GLFW_DECORATED, !borderless);
+
+		window = glfwCreateWindow(width, height, title, NULL, NULL);
+
+		setPos(GetSystemMetrics(SM_CXSCREEN) * 0.5 - (width * 0.5), GetSystemMetrics(SM_CYSCREEN) * 0.5 - height * 0.5);
+
+		glfwMakeContextCurrent(window);
+		glfwSwapInterval(0);
+
+
+#ifdef _DEBUG
+		if (glewInit() != GLEW_OK) {
+			std::cout << "glewInit failed" << std::endl;
+		}
+#else
+		glewInit();
+#endif
+		std::cout << glGetString(GL_VERSION) << std::endl;
 	}
 
 
-	Window::~Window() noexcept {
+	Window::~Window() {
 		glfwDestroyWindow(window);
 		glfwTerminate();
-		delete input;
 	}
 
 
-	int Window::init() noexcept {
-		if (!glfwInit()) {
-#ifdef _DEBUG
-			std::cout << "glfw init failed" << std::endl;
-#endif
-			glfwTerminate();
-			return 0;
-		}
-		window = glfwCreateWindow(state.width, state.height, state.title, NULL, NULL);
-		if (window == NULL) {
-#ifdef _DEBUG
-			std::cout << "Window creation failed" << std::endl;
-#endif
-			glfwTerminate();
-			return 0;
-		}
-
-		input = new Input(window);
-		glfwMakeContextCurrent(window);
-
-		//OpenGL things
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, state.width, state.height, 0, 0, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_POLYGON_SMOOTH);
-		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-
-		//set callbacks
-		glfwSetErrorCallback([](int error, const char* description) { std::cout << "Error: " << description << std::endl; });
-		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); });
-
-		if (glewInit() != GLEW_OK) {
-#ifdef _DEBUG
-			std::cout << "glew init failed" << std::endl;
-#endif
-			return 0;
-		}
-		return 1;
+	YO_VOID Window::resize(YO_UINT width, YO_UINT height) {
+		glfwSetWindowSize(window, this->width = width, this->height = height);
 	}
 
 
-	void Window::clear() noexcept {
+	YO_VOID Window::getSize(YO_INT& width, YO_INT height) {
+		width = this->width;
+		height = this->height;
+	}
+
+
+	YO_VOID Window::setPos(YO_UINT x, YO_UINT y) {
+		glfwSetWindowPos(window, x, y);
+	}
+
+
+	YO_VOID Window::getPos(YO_INT& x, YO_INT& y) const {
+		glfwGetWindowPos(window, &x, &y);
+	}
+
+
+	YO_VOID Window::setTitle(YO_STRING title) {
+		glfwSetWindowTitle(window, this->title = title);
+	}
+
+
+	YO_VOID Window::close() {
+		terminated = YO_TRUE;
+	}
+
+
+	YO_VOID Window::focus() {
+		glfwFocusWindow(window);
+	}
+
+
+	YO_STRING Window::getTitle() const {
+		return title;
+	}
+
+
+	YO_VOID Window::setVisibility(YO_BOOL status) {
+		if (status) {
+			glfwShowWindow(window);
+		}
+		else {
+			glfwHideWindow(window);
+		}
+	}
+
+
+	YO_VOID Window::setOpacity(YO_FLOAT value) {
+		glfwSetWindowOpacity(window, value);
+	}
+
+
+	YO_FLOAT Window::getOpacity() const {
+		return glfwGetWindowOpacity(window);
+	}
+
+
+	YO_VOID Window::vsync(YO_BOOL status) {
+		glfwSwapInterval(status);
+	}
+
+
+	YO_BOOL Window::getVisibility() const {
+		return glfwGetWindowAttrib(window, GLFW_VISIBLE);
+	}
+
+
+	YO_VOID Window::clear() {
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 
-	void Window::update() noexcept {
+	YO_VOID Window::update() {
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
 
 
-	int Window::closed() noexcept {
-		return glfwWindowShouldClose(window);
+	YO_BOOL Window::closed() const {
+		return glfwWindowShouldClose(window) || terminated;
 	}
 
-
-	WindowState Window::getWindowState() noexcept {
-		glfwGetWindowPos(window, &state.x, &state.y);
-		glfwGetWindowSize(window, &state.width, &state.height);
-		return state;
-	}
-
-
-	Input* Window::getInputHandle() noexcept {
-		return input;
-	}
 
 }
