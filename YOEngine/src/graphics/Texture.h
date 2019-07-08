@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 
-#include "../Types.h"
+#include "../items/Types.h"
 
 
 namespace YOEngine {
@@ -17,12 +17,12 @@ namespace YOEngine {
 
 	class Texture {
 	public:
-		Texture(const std::string& file);
-		~Texture();
+		Texture        (const std::string& file);
+		~Texture       ();
 	public:
-		YO_VOID enable(YO_UINT unit);
+		YO_VOID enable ();
 	private:
-		YO_UINT texture;
+		YO_UINT        texture;
 	};
 
 

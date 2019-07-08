@@ -3,7 +3,7 @@
 
 namespace YOEngine {
 
-	
+
 	Transform::Transform() {
 		scale.set(1.0f, 1.0f, 1.0f);
 	}
@@ -18,18 +18,15 @@ namespace YOEngine {
 
 	mat4  Transform::getModel() const {
 		mat4 posMat = mat4::translation(pos);
-		mat4 rotX = mat4::rotate(rot.X(), { 1, 0, 0 });
-		mat4 rotY = mat4::rotate(rot.Y(), { 0, 1, 0 });
-		mat4 rotZ = mat4::rotate(rot.Z(), { 0, 0, 1 });
+
+		mat4 rotX = mat4::rotation(rot.X(), { 1, 0, 0 });
+		mat4 rotY = mat4::rotation(rot.Y(), { 0, 1, 0 });
+		mat4 rotZ = mat4::rotation(rot.Z(), { 0, 0, 1 });
 		mat4 scaleMat = mat4::scale(scale);
-		mat4 rotMat = rotZ * rotY * rotX;
+
+		mat4 rotMat = rotX * rotY * rotZ;
 
 		return posMat * rotMat * scaleMat;
-	}
-
-
-	mat4  Transform::getMVP(const Camera& camera) const {
-		return camera.getViewProj() * getModel();
 	}
 
 
@@ -61,5 +58,6 @@ namespace YOEngine {
 	YO_VOID  Transform::setScale(const vec3& scale) {
 		this->scale.set(scale);
 	}
+
 
 }

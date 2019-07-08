@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "../Types.h"
+#include "../items/Types.h"
 
 
 namespace YOEngine {
@@ -28,6 +28,8 @@ namespace YOEngine {
 		YO_FLOAT& Y               ();
 		YO_FLOAT& Z               ();
 		YO_FLOAT& W               ();
+
+		YO_FLOAT* to_array        ()const;
 	public:
 		vec4& add                 (YO_FLOAT value);
 		vec4& add                 (const vec4& vec);

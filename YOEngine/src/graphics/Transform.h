@@ -15,7 +15,6 @@ namespace YOEngine {
 		Transform(const vec3& pos, const vec3& rot, const vec3& scale);
 
 		mat4 getModel()const;
-		mat4 getMVP(const Camera& camera)const;
 
 		vec3& getPosition();
 		vec3& getRotation();

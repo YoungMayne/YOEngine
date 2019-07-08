@@ -43,6 +43,7 @@ namespace YOEngine {
 				std::cout << button << " button released" << std::endl;
 #endif	
 				event->buttons[button].released = YO_TRUE;
+				event->buttons[button].pressed = YO_FALSE;
 				break;
 			}
 		}
@@ -87,7 +88,10 @@ namespace YOEngine {
 
 	YO_BOOL Event::keyReleased(YO_UINT keyCode) {
 		if (keyCode < YO_MAX_KEYS) {
-			return keys[keyCode].released;
+			if (keys[keyCode].released) {
+				keys[keyCode].released = YO_FALSE;
+				return YO_TRUE;
+			}
 		}
 		return YO_FALSE;
 	}
@@ -95,10 +99,7 @@ namespace YOEngine {
 
 	YO_BOOL Event::mousePressed(YO_UINT buttonCode) {
 		if (buttonCode < YO_MAX_BUTTONS) {
-			if (buttons[buttonCode].pressed) {
-				buttons[buttonCode].pressed = YO_FALSE;
-				return YO_TRUE;
-			}
+			return buttons[buttonCode].pressed;
 		}
 		return YO_FALSE;
 	}

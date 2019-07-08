@@ -31,18 +31,22 @@ namespace YOEngine {
 		setPos(GetSystemMetrics(SM_CXSCREEN) * 0.5 - (width * 0.5), GetSystemMetrics(SM_CYSCREEN) * 0.5 - height * 0.5);
 
 		glfwMakeContextCurrent(window);
-		glfwSwapInterval(0);
-
+		glfwSwapInterval(1);
 
 #ifdef _DEBUG
 		if (glewInit() != GLEW_OK) {
 			std::cout << "glewInit failed" << std::endl;
-		}
+	}
 #else
 		glewInit();
 #endif
 		std::cout << glGetString(GL_VERSION) << std::endl;
-	}
+
+		glViewport(0, 0, width, height);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
 
 
 	Window::~Window() {
@@ -56,9 +60,8 @@ namespace YOEngine {
 	}
 
 
-	YO_VOID Window::getSize(YO_INT& width, YO_INT height) {
-		width = this->width;
-		height = this->height;
+	vec2 Window::getSize() {
+		return { (YO_FLOAT)width, (YO_FLOAT)height };
 	}
 
 
@@ -78,7 +81,7 @@ namespace YOEngine {
 
 
 	YO_VOID Window::close() {
-		terminated = YO_TRUE;
+		glfwSetWindowShouldClose(window, YO_TRUE);
 	}
 
 
@@ -123,7 +126,7 @@ namespace YOEngine {
 
 
 	YO_VOID Window::clear() {
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
@@ -134,7 +137,7 @@ namespace YOEngine {
 
 
 	YO_BOOL Window::closed() const {
-		return glfwWindowShouldClose(window) || terminated;
+		return glfwWindowShouldClose(window);
 	}
 
 

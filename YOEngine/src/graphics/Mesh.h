@@ -17,10 +17,10 @@ namespace YOEngine {
 	public:
 		YO_VOID draw ();
 	private:
-		enum         {POS_VB, TEXCOORD_VB, NUM_BUFFERS};
+		enum         {POSITION, TEXTURE, COLOR, BUFFERS_COUNT};
 		YO_UINT      object;
-		YO_UINT      buffers[NUM_BUFFERS];
-		YO_UINT      drawCount;
+		YO_UINT      buffers[BUFFERS_COUNT];
+		YO_UINT      count;
 	};
 
 

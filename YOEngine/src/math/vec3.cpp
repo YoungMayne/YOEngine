@@ -64,6 +64,12 @@ namespace YOEngine {
 	}
 
 
+	YO_FLOAT* vec3::to_array() const {
+		YO_FLOAT array[] = { x, y, z };
+		return array;
+	}
+
+
 	vec3& vec3::add(YO_FLOAT value) {
 		x += value;
 		y += value;

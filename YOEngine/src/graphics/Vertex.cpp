@@ -4,9 +4,10 @@
 namespace YOEngine {
 
 
-	YOEngine::Vertex::Vertex(const vec3& pos, const vec2& texCoord) {
+	YOEngine::Vertex::Vertex(const vec3& pos, const vec3& color, const vec2& texture) {
 		this->pos = pos;
-		this->texCoord = texCoord;
+		this->color = color;
+		this->texture = texture;
 	}
 
 
@@ -32,13 +33,23 @@ namespace YOEngine {
 	}
 
 
-	vec2 Vertex::getTex() const {
-		return texCoord;
+	vec3 Vertex::getColor() const {
+		return color;
 	}
 
 
-	vec2& Vertex::getTex() {
-		return texCoord;
+	vec3& Vertex::getColor() {
+		return color;
+	}
+
+
+	vec2 Vertex::getTexture() const {
+		return texture;
+	}
+
+
+	vec2& Vertex::getTexture() {
+		return texture;
 	}
 
 

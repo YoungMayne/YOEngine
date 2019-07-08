@@ -6,7 +6,7 @@
 #endif
 
 
-#include "../Types.h"
+#include "../items/Types.h"
 #include "../graphics/Window.h"
 
 

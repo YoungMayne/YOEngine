@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Types.h"
+#include "items/Utils.h"
+#include "items/Types.h"
 #include "math/vec2.h"
 #include "math/vec3.h"
 #include "math/vec4.h"

@@ -10,14 +10,14 @@ namespace YOEngine {
 
 	class Camera {
 	public:
-		Camera(const vec3& pos, YO_FLOAT fov, YO_FLOAT aspect, YO_FLOAT near, YO_FLOAT far);
+		Camera           (const vec3& pos, YO_FLOAT fov, YO_FLOAT aspect, YO_FLOAT near, YO_FLOAT far);
 
-		mat4 getViewProj()const;
+		mat4 getViewProj ()const;
 	private:
-		mat4 perspective;
-		vec3 pos;
-		vec3 forward;
-		vec3 up;
+		mat4             perspective;
+		vec3             pos;
+		vec3             forward;
+		vec3             up;
 	};
 
 

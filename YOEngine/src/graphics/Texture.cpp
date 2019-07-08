@@ -19,7 +19,9 @@ namespace YOEngine {
 
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, params[0], params[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
 		stbi_image_free(image);
 	}
 
@@ -29,9 +31,10 @@ namespace YOEngine {
 	}
 
 
-	YO_VOID Texture::enable(YO_UINT unit) {
-		glActiveTexture(GL_TEXTURE0 + unit);
+	YO_VOID Texture::enable() {
+		glActiveTexture(GL_TEXTURE0 + texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 	}
+
 
 }

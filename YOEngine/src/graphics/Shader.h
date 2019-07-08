@@ -7,8 +7,8 @@
 #include <iostream>
 #endif
 
-#include "../Types.h"
-#include "../Utils.h"
+#include "../items/Types.h"
+#include "../items/Utils.h"
 #include "Transform.h"
 #include "Camera.h"
 
@@ -26,10 +26,11 @@ namespace YOEngine {
 
 		YO_UINT getId   ();
 	private:
-		enum{TRANSFORM, NUM_UNIFORMS};
+		enum            {VERTEX, FRAGMENT, NUM_SHADERS};
+		enum            {TRANSFORM, NUM_UNIFORMS};
 		YO_UINT         id;
 		YO_UINT         uniforms[NUM_UNIFORMS];
-		YO_UINT         shaders[2];
+		YO_UINT         shaders[NUM_SHADERS];
 	};
 
 

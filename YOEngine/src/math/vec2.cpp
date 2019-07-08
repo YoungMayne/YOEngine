@@ -53,6 +53,12 @@ namespace YOEngine {
 	}
 
 
+	YO_FLOAT* vec2::to_array() const {
+		YO_FLOAT array[] = { x, y };
+		return array;
+	}
+
+
 	vec2& vec2::add(YO_FLOAT value) {
 		x += value;
 		y += value;

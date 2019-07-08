@@ -7,7 +7,8 @@
 #include <iostream>
 #endif
 
-#include "../Types.h"
+#include "../items/Types.h"
+#include "../math/vec2.h"
 
 
 namespace YOEngine {
@@ -22,7 +23,8 @@ namespace YOEngine {
 		~Window               ();
 
 		YO_VOID resize        (YO_UINT width, YO_UINT height);
-		YO_VOID getSize       (YO_INT& width, YO_INT height);
+
+		vec2 getSize          ();
 
 		YO_VOID setPos        (YO_UINT x, YO_UINT y);
 		YO_VOID getPos        (YO_INT& x, YO_INT& y)const;
@@ -45,7 +47,6 @@ namespace YOEngine {
 		YO_BOOL closed        ()const;
 	protected:
 		GLFWwindow*           window;
-		YO_BOOL               terminated;
 		YO_STRING             title;
 		YO_INT                height;
 		YO_INT                width;

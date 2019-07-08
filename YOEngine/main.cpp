@@ -2,47 +2,90 @@
 
 #include "src/YOEngine.h"
 
+
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 800
 
-using namespace YOEngine;
-
 
 int STARTENGINE() {
-	Window window(DISPLAY_WIDTH, DISPLAY_HEIGHT, "window");
-	Event event(window);
-	Shader shader("src/shaders/vs");
-	Texture texture("src/textures/bricks.jpg");
-	Camera camera({ 0, 0, -300 }, 70.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, 1, 1000.0f);
-	Transform transform;
+	YOEngine::Window window(DISPLAY_WIDTH, DISPLAY_HEIGHT, "window");
+	YOEngine::Event event(window);
+	YOEngine::Shader shader("resourses/shaders/vs");
+	YOEngine::Texture texture("resourses/textures/bricks.jpg");
+	YOEngine::Camera camera({ 0, 0, 3 }, 45.0f, (float)DISPLAY_WIDTH / (float)DISPLAY_HEIGHT, -0.01, 1000.0f);
+	YOEngine::Transform transform;
 
-	Vertex vertices[] = {
-		Vertex({-0.5, -0.5, 0}, {0, 0}),
-		Vertex({0, 0.5, 0}, {0.5, 1.0}),
-		Vertex({0.5, -0.5, 0}, {1.0, 0.0})
+	YO_FLOAT vSize = 0.5f;
+
+	YOEngine::Vertex vertices[] = {
+		//FACE
+		YOEngine::Vertex({-vSize, -vSize,  vSize}, 0, {0, 0}),
+		YOEngine::Vertex({-vSize,  vSize,  vSize}, 0, {0, 1}),
+		YOEngine::Vertex({ vSize, -vSize,  vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({ vSize, -vSize,  vSize}, 0, {1, 0}),
+		YOEngine::Vertex({ vSize,  vSize,  vSize}, 0, {1, 1}),
+		YOEngine::Vertex({-vSize,  vSize,  vSize}, 0, {0, 1}),
+		//TOP
+		YOEngine::Vertex({-vSize,  vSize,  vSize}, 0, {0, 0}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		YOEngine::Vertex({ vSize,  vSize,  vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({ vSize,  vSize,  vSize}, 0, {1, 0}),
+		YOEngine::Vertex({ vSize,  vSize, -vSize}, 0, {1, 1}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		//BACK
+		YOEngine::Vertex({-vSize, -vSize, -vSize}, 0, {0, 0}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		YOEngine::Vertex({ vSize, -vSize, -vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({ vSize, -vSize, -vSize}, 0, {1, 0}),
+		YOEngine::Vertex({ vSize,  vSize, -vSize}, 0, {1, 1}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		//BOTTOM
+		YOEngine::Vertex({-vSize, -vSize,  vSize}, 0, {0, 0}),
+		YOEngine::Vertex({-vSize, -vSize, -vSize}, 0, {0, 1}),
+		YOEngine::Vertex({ vSize, -vSize,  vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({ vSize, -vSize,  vSize}, 0, {1, 0}),
+		YOEngine::Vertex({ vSize, -vSize, -vSize}, 0, {1, 1}),
+		YOEngine::Vertex({-vSize, -vSize, -vSize}, 0, {0, 1}),
+		//LEFT
+		YOEngine::Vertex({-vSize, -vSize, -vSize}, 0, {0, 0}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		YOEngine::Vertex({-vSize, -vSize,  vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({-vSize, -vSize,  vSize}, 0, {1, 0}),
+		YOEngine::Vertex({-vSize,  vSize,  vSize}, 0, {1, 1}),
+		YOEngine::Vertex({-vSize,  vSize, -vSize}, 0, {0, 1}),
+		//RIGHT
+		YOEngine::Vertex({ vSize, -vSize,  vSize}, 0, {0, 0}),
+		YOEngine::Vertex({ vSize,  vSize,  vSize}, 0, {0, 1}),
+		YOEngine::Vertex({ vSize, -vSize, -vSize}, 0, {1, 0}),
+
+		YOEngine::Vertex({ vSize, -vSize, -vSize}, 0, {1, 0}),
+		YOEngine::Vertex({ vSize,  vSize, -vSize}, 0, {1, 1}),
+		YOEngine::Vertex({ vSize,  vSize,  vSize}, 0, {0, 1}),
 	};
+	YOEngine::Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
-	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+	float counter = 0.0f;
 
-	YO_FLOAT counter = 0.0f;
-	
 	shader.enable();
+
 	while (!window.closed()) {
-
-		float sinCounter = sinf(counter);
-		float absSinCounter = abs(sinCounter);
-
 		transform.getRotation().X() = counter;
+		transform.getRotation().Y() = counter;
+		//transform.getRotation().Z() = counter;
 
 		window.clear();
-				
-		shader.enable();
-		texture.enable(0);
+
+		texture.enable();
 		shader.update(transform, camera);
 		mesh.draw();
 
 		window.update();
-		counter += 0.0001f;
+		counter += 0.01f;
 	}
 
 	return 0;
